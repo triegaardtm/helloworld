@@ -2,6 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Customer;
+use App\Order;
+use App\CustomerRecipe;
 use App\Recipe;
 use Illuminate\Http\Request;
 
@@ -36,7 +39,31 @@ class RecipesController extends Controller
      */
     public function store(Request $request)
     {
-        //
+
+//        dd($request);
+
+        $order = Order::create([
+            'user_id'=>Auth()->user()->id
+        ]);
+
+
+        $total = count($request->recipes);
+//        dd($total);
+
+        for($i = 0;  $i < $total; $i++) {
+           // echo "the number is $i<br>";
+
+
+            CustomerRecipe::create([
+                'order_id'=> $order->id,
+                'recipe_id' => $request->recipes[$i],
+                'qty' => $request->quantities[$i],
+            ]);
+            return redirect('recipes');
+
+        }
+
+
     }
 
     /**

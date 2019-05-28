@@ -13,26 +13,38 @@
                             {{ session('status') }}
                         </div>
                     @endif
+                        <form method="POST" action="/recipes">
+                            @csrf
 
                         <table class="table table-bordered">
                             <tr>
                                 <th>Name</th>
+                                <th>Quantity</th>
                             </tr>
 
                             @foreach($recipes as $recipe)
-                                <tr>
 
+                                <tr>
                                     <td> {{ $recipe ->name }}</td>
+                                    <input type="hidden" name="recipes[]" value="{{ $recipe->id }}">
+                                    <td> <input type = 'text' name="quantities[]"></td>
                                 </tr>
 
                             @endforeach
 
 
-                            {{ $recipe->links() }}
+                            {{ $recipes->links() }}
                         </table>
 
+
+                        <button type="submit" class="btn btn-primary">
+                            {{ __('Submit') }}
+                        </button>
+
+                        </form>
+
                         <div class="links">
-                            <a href="http://helloworld.test/ingredients/create">Add New Recipe</a>
+                            <a href="http://helloworld.test/ingredients/create">Submit</a>
                         </div>
 
                 </div>
